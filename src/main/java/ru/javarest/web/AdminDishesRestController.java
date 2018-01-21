@@ -25,13 +25,12 @@ public class AdminDishesRestController {
     private DishService dishService;
 
     @GetMapping(value = REST_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Dish> getAllDishes()
-    {
+    public List<Dish> getAllDishes() {
         log.info("getAll dishes");
         return dishService.getAll();
     }
 
-     @GetMapping(value = REST_DISHES + "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = REST_DISHES + "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Dish getDish(@PathVariable("id") int id) {
         log.info("get dish {}", id);
         return dishService.get(id);

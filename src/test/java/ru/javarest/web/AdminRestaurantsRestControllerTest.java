@@ -12,19 +12,18 @@ import ru.javarest.web.json.JsonUtil;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.javarest.RestaurantTestData.*;
+import static ru.javarest.RestaurantDishTestData.*;
 import static ru.javarest.TestUtil.userHttpBasic;
 import static ru.javarest.UserTestData.ADMIN;
 
 public class AdminRestaurantsRestControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = "/rest/admin/restaurants";
-
+    private static final String REST_URL = AdminRestaurantsRestController.REST_RESTS;
 
     @Autowired
     protected RestaurantService restaurantService;
 
-    //  get All Restaurants
+//  get All Restaurants
 //  http://localhost:8080/bestlunch/rest/admin/restaurants --user admin@gmail.com:admin`
     @Test
     public void getAllRestaurants() throws Exception {
@@ -33,9 +32,9 @@ public class AdminRestaurantsRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(
-                        BoltzmannRestaurant,
-                        MaxwellRestaurant,
-                        FeynmanRestaurant));
+                        BOLTZMANN_RESTAURANT,
+                        MAXWELL_RESTAURANT,
+                        FEYNMAN_RESTAURANT));
     }
 
     // get Restaurant with id=200001
@@ -46,7 +45,7 @@ public class AdminRestaurantsRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(BoltzmannRestaurant));
+                .andExpect(contentJson(BOLTZMANN_RESTAURANT));
     }
 
     @Test
@@ -62,10 +61,10 @@ public class AdminRestaurantsRestControllerTest extends AbstractControllerTest {
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
-        assertMatch(restaurantService.getAll(), BoltzmannRestaurant,
-                FeynmanRestaurant,
+        assertMatch(restaurantService.getAll(), BOLTZMANN_RESTAURANT,
+                FEYNMAN_RESTAURANT,
                 expected,
-                MaxwellRestaurant);
+                MAXWELL_RESTAURANT);
     }
 
 //  delete Restaurant
@@ -75,22 +74,22 @@ public class AdminRestaurantsRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(delete(REST_URL + "/200001")
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
-        assertMatch(restaurantService.getAll(), BoltzmannRestaurant, FeynmanRestaurant);
+        assertMatch(restaurantService.getAll(), BOLTZMANN_RESTAURANT, FEYNMAN_RESTAURANT);
     }
 
 //    #### update Restaurant
 //`curl -s -X PUT -d '{"title":"gell","address":"Nizhny Novgorod, 13 Gagarina ave.","email":"gell-mann@mail.ru","site":"gell.ru"}' -H 'Content-Type: application/json' http://localhost:8080/bestlunch/rest/admin/restaurants/200003 --user admin@gmail.com:admin
     @Test
     public void updateRestaurant() throws Exception {
-        Restaurant updated = new Restaurant(BoltzmannRestaurant);
+        Restaurant updated = new Restaurant(BOLTZMANN_RESTAURANT);
         updated.setAddress("New Address");
-        mockMvc.perform(put(REST_URL + "/" + BoltzmannRestaurant.getId())
+        mockMvc.perform(put(REST_URL + "/" + BOLTZMANN_RESTAURANT.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isOk());
 
-        assertMatch(restaurantService.get(BoltzmannRestaurant.getId()), updated);
+        assertMatch(restaurantService.get(BOLTZMANN_RESTAURANT.getId()), updated);
 
     }
 }

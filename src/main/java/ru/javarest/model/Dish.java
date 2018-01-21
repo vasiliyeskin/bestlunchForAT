@@ -14,7 +14,7 @@ import ru.javarest.HasId;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
         @NamedQuery(name = Dish.ALL_RESTAUR_SORTED, query = "SELECT d FROM Dish d WHERE d.restaurant_id=:restaurant_id ORDER BY d.name DESC"),
-        @NamedQuery(name = Dish.ALL_SORTED, query = "SELECT d FROM Dish d ORDER BY d.name DESC"),
+        @NamedQuery(name = Dish.ALL_SORTED, query = "SELECT d FROM Dish d ORDER BY d.id ASC"),
         @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish d WHERE d.id=:id")})
 
 
