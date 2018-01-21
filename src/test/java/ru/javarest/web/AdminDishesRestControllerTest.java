@@ -34,12 +34,12 @@ public class AdminDishesRestControllerTest extends AbstractControllerTest  {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(
-                        LobsterMaxwell,
-                        burgerMaxwell,
-                        borshMaxwell,
-                        lobsterFeynman,
-                        burgerFeynman,
-                        borshBoltzmann));
+                        LOBSTER_MAXWELL,
+                        BURGER_MAXWELL,
+                        BORSH_MAXWELL,
+                        LOBSTER_FEYNMAN,
+                        BURGER_FEYNMAN,
+                        BORSH_BOLTZMANN));
     }
 
 //  get Dish 300000
@@ -50,7 +50,7 @@ public class AdminDishesRestControllerTest extends AbstractControllerTest  {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(LobsterMaxwell));
+                .andExpect(contentJson(LOBSTER_MAXWELL));
     }
 
 //  create Dish
@@ -69,12 +69,12 @@ public class AdminDishesRestControllerTest extends AbstractControllerTest  {
 
         assertMatch(returned, expected);
         assertMatch(dishService.getAll(),
-                LobsterMaxwell,
-                burgerMaxwell,
-                borshMaxwell,
-                lobsterFeynman,
-                burgerFeynman,
-                borshBoltzmann,
+                LOBSTER_MAXWELL,
+                BURGER_MAXWELL,
+                BORSH_MAXWELL,
+                LOBSTER_FEYNMAN,
+                BURGER_FEYNMAN,
+                BORSH_BOLTZMANN,
                 expected);
     }
 
@@ -86,24 +86,24 @@ public class AdminDishesRestControllerTest extends AbstractControllerTest  {
                     .with(userHttpBasic(ADMIN)))
                     .andExpect(status().isOk());
             assertMatch(dishService.getAll(),
-                    LobsterMaxwell,
-                    borshMaxwell,
-                    lobsterFeynman,
-                    burgerFeynman,
-                    borshBoltzmann);
+                    LOBSTER_MAXWELL,
+                    BORSH_MAXWELL,
+                    LOBSTER_FEYNMAN,
+                    BURGER_FEYNMAN,
+                    BORSH_BOLTZMANN);
     }
 
     @Test
     public void updateDish() throws Exception {
-        Dish updated = new Dish(LobsterMaxwell);
+        Dish updated = new Dish(LOBSTER_MAXWELL);
         updated.setPrice(55566);
-        mockMvc.perform(put(REST_URL + "/" + LobsterMaxwell.getId())
+        mockMvc.perform(put(REST_URL + "/" + LOBSTER_MAXWELL.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isOk());
 
-        assertMatch(dishService.get(LobsterMaxwell.getId()), updated);
+        assertMatch(dishService.get(LOBSTER_MAXWELL.getId()), updated);
 
     }
 }
