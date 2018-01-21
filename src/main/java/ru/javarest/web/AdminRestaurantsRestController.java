@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javarest.model.Restaurant;
 import ru.javarest.service.RestaurantService;
 import ru.javarest.util.ValidationUtil;
+import ru.javarest.HasId;
 
 import java.net.URI;
 import java.util.List;

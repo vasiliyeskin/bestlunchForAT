@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import ru.javarest.HasId;
 
 
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -20,7 +21,7 @@ import java.util.Date;
 @Access(AccessType.FIELD)
 @Entity
 @Table(name="dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name"}, name = "dishes_unique_restaurant_name_idx")})
-public class Dish implements BaseEntity {
+public class Dish implements HasId {
     public static final String ALL_RESTAUR_SORTED = "Dish.getAllRestaurant";
     public static final String ALL_SORTED = "Dish.getAll";
     public static final String DELETE = "Dish.delete";

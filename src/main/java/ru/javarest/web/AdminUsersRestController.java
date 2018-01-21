@@ -3,6 +3,7 @@ package ru.javarest.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,7 @@ public class AdminUsersRestController {
     }
 
     @DeleteMapping(value = REST_USERS + "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") int id) {
         log.info("delete user {}", id);
         userService.delete(id);

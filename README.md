@@ -65,7 +65,7 @@ Admin
 #### get All Restaurants
 `curl -s http://localhost:8080/bestlunch/rest/admin/restaurants --user admin@gmail.com:admin`
 
-#### get Restaurant 200001
+#### get Restaurant wiht id=200001
 `curl -s http://localhost:8080/bestlunch/rest/admin/restaurants/200001 --user admin@gmail.com:admin`
 
 #### delete Restaurant

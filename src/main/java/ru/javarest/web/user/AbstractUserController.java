@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javarest.service.UserService;
+import ru.javarest.to.UserTo;
 import ru.javarest.util.ValidationUtil;
 import ru.javarest.model.User;
 
@@ -36,7 +37,7 @@ public abstract class AbstractUserController {
         service.delete(id);
     }
 
-    public void update(User user, int id) {
+    public void update(UserTo user, int id) {
         log.info("update {} with id={}", user, id);
         ValidationUtil.assureIdConsistent(user, id);
         service.update(user);

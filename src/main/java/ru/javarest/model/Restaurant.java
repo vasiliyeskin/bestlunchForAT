@@ -10,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
+import ru.javarest.HasId;
+
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
         @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id"),
@@ -20,7 +22,7 @@ import java.util.*;
 @Access(AccessType.FIELD)
 @Entity
 @Table(name="restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "restaurants_unique_email_idx")})
-public class Restaurant implements BaseEntity {
+public class Restaurant implements HasId {
 
     public static final String DELETE = "Restaurant.delete";
     public static final String BY_EMAIL = "Restaurant.getByEmail";

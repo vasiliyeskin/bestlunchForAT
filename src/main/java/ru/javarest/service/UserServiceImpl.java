@@ -6,14 +6,19 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.javarest.AuthorizedUser;
+import ru.javarest.to.UserTo;
+import ru.javarest.util.UserUtil;
 import ru.javarest.util.exception.NotFoundException;
 import ru.javarest.model.User;
 import ru.javarest.repository.UserRepository;
 
 import java.util.List;
 
+
+import static ru.javarest.util.UserUtil.prepareToSave;
 import static ru.javarest.util.ValidationUtil.checkNotFound;
 import static ru.javarest.util.ValidationUtil.checkNotFoundWithId;
 
@@ -31,7 +36,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
-        return repository.save(user);
+//        return repository.save(prepareToSave(user));
+        return repository.save(prepareToSave(user));
     }
 
     @CacheEvict(value = "users", allEntries = true)
@@ -59,6 +65,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @CacheEvict(value = "users", allEntries = true)
     @Override
+    public void update(UserTo userTo) {
+        Assert.notNull(userTo, "user must not be null");
+        User user = get(userTo.getId());
+        repository.save(UserUtil.updateFromTo(user, userTo));
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    @Override
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
         repository.save(user);
@@ -71,16 +85,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getWithMeals(int id) {
-        return checkNotFoundWithId(repository.getWithMeals(id), id);
-    }
-
-    @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.getByEmail(email.toLowerCase());
         if (user == null) {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
         return new AuthorizedUser(user);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    @Override
+    @Transactional
+    public void active(int id, boolean enabled) {
+        User user = get(id);
+        user.setActive(enabled);
+        repository.save(user);
     }
 }

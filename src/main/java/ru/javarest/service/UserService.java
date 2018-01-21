@@ -2,6 +2,7 @@ package ru.javarest.service;
 
 
 import ru.javarest.model.User;
+import ru.javarest.to.UserTo;
 import ru.javarest.util.exception.NotFoundException;
 
 import java.util.List;
@@ -18,9 +19,11 @@ public interface UserService {
 
     void update(User user);
 
+    void update(UserTo user);
+
     void evictCache();
 
     List<User> getAll();
 
-    User getWithMeals(int id);
+    void active(int id, boolean enabled);
 }

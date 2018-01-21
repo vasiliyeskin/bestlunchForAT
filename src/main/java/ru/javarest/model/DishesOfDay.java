@@ -2,6 +2,7 @@ package ru.javarest.model;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import ru.javarest.HasId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ import java.util.Date;
 @Access(AccessType.FIELD)
 @Entity
 @Table(name = "dishesofday", uniqueConstraints = {@UniqueConstraint(columnNames = {"datelunch", "dish_id"}, name = "dishesofday_unique_datelunch_dish_id_idx")})
-public class DishesOfDay implements BaseEntity {
+public class DishesOfDay implements HasId {
 
     public static final String DELETE = "DishesOfDay.delete";
     public static final String BY_DATE = "DishesOfDay.getDishesOfDate";
